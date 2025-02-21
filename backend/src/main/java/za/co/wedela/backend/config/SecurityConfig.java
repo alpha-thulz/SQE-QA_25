@@ -64,7 +64,8 @@ public class SecurityConfig {
                 .info(new Info()
                         .title("SQE/QA API Documentation")
                         .version("1.0")
-                        .description("SQE/QA API Documentation made by SQE team")
+                        .description("<p>SQE/QA API Documentation made by SQE team</p>" +
+                                "<p>To <strong>touch health, insurance, purchasing and payments systems</strong></p>")
                         .contact(new Contact()
                                 .name("SQE Team")
                                 .url("https://github.com/alpha-thulz/SQE-QA_25")
