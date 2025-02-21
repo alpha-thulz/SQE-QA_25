@@ -21,6 +21,7 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
+    private final UsersDetailsService userDetailsService;
 
     public String registerUser(UserDao userDao) {
         User user = User.builder()
@@ -47,6 +48,10 @@ public class UserService {
 
     public User getUser(String id) {
         return userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public User getCurrentUser(String token) {
+        return (User) userDetailsService.loadUserByUsername(tokenService.extractUsername(token));
     }
 
     public List<User> getAllUsers() {

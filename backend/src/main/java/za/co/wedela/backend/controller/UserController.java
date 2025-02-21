@@ -1,9 +1,12 @@
 package za.co.wedela.backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
 import za.co.wedela.backend.dao.UserDao;
 import za.co.wedela.backend.service.UserService;
 
@@ -45,5 +48,11 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(@NonNull HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7);
+        return ResponseEntity.ok(userService.getCurrentUser(token));
     }
 }
