@@ -1,7 +1,6 @@
 package za.co.wedela.backend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -47,7 +46,7 @@ public class UserService {
     }
 
     public User getUser(String id) {
-        return userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
     }
 
     public User getCurrentUser(String token) {
@@ -58,19 +57,17 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public User updateUser(String id, UserDao userDao) {
+    public String updateUser(String id, UserDao userDao) {
         User user = getUser(id);
 
-        if (user == null)
-            throw new RuntimeException("User not found");
+        user.setUsername(userDao.getUsername());
+        if (userDao.getPassword() != null)
+            user.setPassword(encoder.encode(user.getPassword()));
+        user.setEmail(userDao.getEmail());
+        user.setRole(userDao.getRole());
 
-        user = User.builder()
-                .username(userDao.getUsername())
-                .password(encoder.encode(userDao.getPassword()))
-                .email(userDao.getEmail())
-                .role(userDao.getRole())
-                .build();
-        return userRepo.save(user);
+        userRepo.save(user);
+        return tokenService.generateToken(user.getUsername());
     }
 
     public void deleteUser(String id) {
