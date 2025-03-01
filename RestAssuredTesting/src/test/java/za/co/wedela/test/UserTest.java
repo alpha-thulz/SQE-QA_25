@@ -20,17 +20,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest extends BaseSet {
 
-    private final Faker faker = new Faker();
     private final Map<String, String> user1 = Map.of(
-            "username", faker.name().username(),
-            "password", faker.internet().password(),
-            "email", faker.internet().emailAddress(),
+            "username", "John",
+            "password", "password",
+            "email", "john@example.com",
             "role", "ADMIN"
     );
 
     @Order(1)
     @Test
     public void testRegisterUser() {
+        System.out.println(user1);
         Response response = Helper.postResponse(user1, "/api/v1/users/auth/register");
 
         response.then().assertThat().statusCode(201);
@@ -43,6 +43,7 @@ public class UserTest extends BaseSet {
     @Order(2)
     @Test
     public void testLoginUser() {
+        System.out.println(user1);
         Response response = Helper.postResponse(user1, "/api/v1/users/auth/login");
 
         assertEquals(200, response.statusCode(), "Wrong status code");
