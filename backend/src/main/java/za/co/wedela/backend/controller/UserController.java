@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestAttributes;
 import za.co.wedela.backend.dao.UserDao;
 import za.co.wedela.backend.service.UserService;
 
@@ -29,19 +28,19 @@ public class UserController {
         return ResponseEntity.ok(Map.of("access_token", userService.loginUser(user)));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
-        return ResponseEntity.ok(userService.getUser(id));
-    }
-
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(userService.getUser(id));
+    }
+
     @PatchMapping("{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody UserDao user) {
-        return ResponseEntity.status(HttpStatus.CONTINUE).body(userService.updateUser(id, user));
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));
     }
 
     @DeleteMapping("{id}")

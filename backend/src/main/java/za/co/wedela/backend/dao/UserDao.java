@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import za.co.wedela.backend.model.Role;
+import za.co.wedela.backend.model.role.Role;
 
 
 @Data

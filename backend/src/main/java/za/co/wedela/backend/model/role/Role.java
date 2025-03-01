@@ -1,4 +1,4 @@
-package za.co.wedela.backend.model;
+package za.co.wedela.backend.model.role;
 
 public enum Role {
     ADMIN,

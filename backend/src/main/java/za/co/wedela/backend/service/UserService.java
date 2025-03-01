@@ -61,16 +61,16 @@ public class UserService {
     public User updateUser(String id, UserDao userDao) {
         User user = getUser(id);
 
-        if (user == null)
-            throw new RuntimeException("User not found");
+        if (!userDao.getUsername().equalsIgnoreCase(user.getUsername()))
+            throw new IllegalArgumentException("You cannot update the username");
 
-        user = User.builder()
-                .username(userDao.getUsername())
-                .password(encoder.encode(userDao.getPassword()))
-                .email(userDao.getEmail())
-                .role(userDao.getRole())
-                .build();
-        return userRepo.save(user);
+        if (userDao.getPassword() != null)
+            user.setPassword(encoder.encode(userDao.getPassword()));
+        user.setEmail(userDao.getEmail());
+        user.setRole(userDao.getRole());
+
+        userRepo.saveAndFlush(user);
+        return user;
     }
 
     public void deleteUser(String id) {
